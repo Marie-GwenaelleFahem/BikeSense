@@ -1,13 +1,14 @@
 import express, { Request, Response } from "express";
+import temperatureRoutes from "./routes/temperatureRoutes";
+
 const app = express();
-const port = 3000;
 
 app.use(express.json());
+
+app.use("/api/temperature", temperatureRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Backend is running");
 });
 
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
-});
+export default app;
