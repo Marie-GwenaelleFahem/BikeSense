@@ -18,7 +18,7 @@ const useAlerts = (sensors: Sensor[]): Alert[] => {
     }
 
     if (sensor.type === 'humidité' && parseInt(sensor.value) > 70) {
-      alerts.push({ type: 'humidité', message: 'Humidité trop élevée' });
+      alerts.push({ type: 'humidité', message: 'Taux d\'humidité trop élevé' });
     }
   });
 
