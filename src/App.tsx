@@ -9,6 +9,7 @@ import Notfound from './pages/Notfound';
 import { AlertSettingsProvider } from './context/AlertSettingsContext';
 import AlertList from './features/alerts/AlertList';
 import History from './pages/History';
+import Chart from './pages/Chart';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/alerts" element={<AlertList />} />
                     <Route path="/history" element={<History />} />
+                    <Route path="/chart" element={<Chart />} />
                         <Route path="*" element={<Notfound />} />
                     </Route>
                 </Routes>

@@ -4,7 +4,7 @@ import useMockSensors from '../hooks/useMockSensors';
 const SensorHistory: React.FC = () => {
   const sensors = useMockSensors();
 
-  const [typeFilter, setTypeFilter] = useState<'all' | 'temperature' | 'humidity' | 'movement'>('all');
+  const [typeFilter, setTypeFilter] = useState<'all' | 'température' | 'humidité' | 'mouvement'>('all');
   const [threshold, setThreshold] = useState<number | ''>('');
   const [operator, setOperator] = useState<'>' | '<'>('>');
   const [startDate, setStartDate] = useState('');
@@ -42,11 +42,11 @@ const SensorHistory: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-4 rounded shadow">
         <div>
           <label className="block font-medium">Type de capteur</label>
-          <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value as 'all' | 'temperature' | 'humidity' | 'movement')} className="w-full p-2 border rounded">
+          <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value as 'all' | 'température' | 'humidité' | 'mouvement')} className="w-full p-2 border rounded">
             <option value="all">Tous</option>
-            <option value="temperature">Température</option>
-            <option value="humidity">Humidité</option>
-            <option value="movement">Mouvement</option>
+            <option value="température">Température</option>
+            <option value="humidité">Humidité</option>
+            <option value="mouvement">Mouvement</option>
           </select>
         </div>
 

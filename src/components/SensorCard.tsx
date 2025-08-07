@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface SensorCardProps {
-  type: 'temperature' | 'humidity' | 'movement';
+  type: 'température' | 'humidité' | 'mouvement';
   value: string;
   timestamp: string;
 }
