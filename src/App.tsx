@@ -4,8 +4,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
+
 import Notfound from './pages/Notfound';
 import { AlertSettingsProvider } from './context/AlertSettingsContext';
+import AlertList from './features/alerts/AlertList';
 
 function App() {
     return (
@@ -16,6 +18,7 @@ function App() {
                     <Route index element={<Login />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/settings" element={<Settings />} />
+                    <Route path="/alerts" element={<AlertList />} />
                         <Route path="*" element={<Notfound />} />
                     </Route>
                 </Routes>
