@@ -13,6 +13,12 @@ const Navbar: React.FC = () => {
         <Link to="/settings" className="text-gray-700 hover:underline">
           Paramètres
         </Link>
+        <Link to="/alerts" className="text-gray-700 hover:underline">
+          Alertes
+        </Link>
+        <Link to="/history" className="text-gray-700 hover:underline">
+          Historique
+        </Link>
         {/* TODO: Add logout button */}
         <Link to="/login" className="text-gray-700 hover:underline">
           Deconnexion

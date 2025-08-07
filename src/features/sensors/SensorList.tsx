@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import SensorCard from '../../components/SensorCard';
 import useMockSensors from '../../hooks/useMockSensors';
-import type { Sensor } from '../../hooks/useMockSensors';
 
 const SensorList: React.FC = () => {
   const sensors = useMockSensors();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; // 6 capteurs par page (2 rangées de 3)
+  const itemsPerPage = 3; 
 
   // Utiliser tous les capteurs, pas seulement les températures
   const filteredData = sensors;
