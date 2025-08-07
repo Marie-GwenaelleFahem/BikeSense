@@ -7,6 +7,7 @@ const Settings: React.FC = () => {
 
 
     const handleSave = () => {
+        // TODO: Save the settings to the database
         console.log('Save');
     };
 
