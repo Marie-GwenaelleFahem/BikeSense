@@ -7,7 +7,6 @@ import Login from './pages/Login';
 
 import Notfound from './pages/Notfound';
 import { AlertSettingsProvider } from './context/AlertSettingsContext';
-import AlertList from './features/alerts/AlertList';
 import History from './pages/History';
 import Chart from './pages/Chart';
 
@@ -17,10 +16,9 @@ function App() {
             <AlertSettingsProvider>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route index element={<Login />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/settings" element={<Settings />} />
-                    <Route path="/alerts" element={<AlertList />} />
                     <Route path="/history" element={<History />} />
                     <Route path="/chart" element={<Chart />} />
                         <Route path="*" element={<Notfound />} />
