@@ -8,9 +8,18 @@ import {
 // Récupérer toutes les températures
 export const getAllTemperatures = async (req: Request, res: Response) => {
   try {
-    const temperatures = await fetchAllTemperatures();
+    const filters = {
+      min: req.query.min ? Number(req.query.min) : undefined,
+      max: req.query.max ? Number(req.query.max) : undefined,
+      value: req.query.value ? Number(req.query.value) : undefined,
+      start: req.query.start as string,
+      end: req.query.end as string
+    };
+    
+    const temperatures = await fetchAllTemperatures(filters);
     res.json({ success: true, data: temperatures });
   } catch (error) {
+    console.error("Error in getAllTemperatures:", error);
     res.status(500).json({ success: false, message: "Error fetching temperatures" });
   }
 };
