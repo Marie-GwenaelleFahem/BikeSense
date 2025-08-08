@@ -11,22 +11,20 @@ const dbConfig = {
 
 const pool = mariadb.createPool(dbConfig);
 
-// Fonction pour tester la connexion
+// teste la connexion à al base
 export const testConnection = async (): Promise<boolean> => {
   let conn;
   try {
     conn = await pool.getConnection();
-    console.log("Connexion à la base de données réussie");
     return true;
   } catch (error) {
-    console.error("Erreur de connexion à la base de données:", error);
     return false;
   } finally {
     if (conn) conn.release();
   }
 };
 
-// Fonction pour exécuter des requêtes
+// exécute une requête
 export const executeQuery = async (
   query: string,
   params?: any[]
@@ -34,10 +32,8 @@ export const executeQuery = async (
   let conn;
   try {
     conn = await pool.getConnection();
-    const result = await conn.query(query, params);
-    return result;
+    return await conn.query(query, params);
   } catch (error) {
-    console.error("Erreur lors de l'exécution de la requête:", error);
     throw error;
   } finally {
     if (conn) conn.release();
