@@ -24,7 +24,9 @@ const convertTimestampEpochToISO = (
   return new Date(timestamp).toISOString();
 };
 
-export const fetchAllHumidity = async (filters?: any): Promise<Humidity[]> => {
+export const fetchAllHumidities = async (
+  filters?: any
+): Promise<Humidity[]> => {
   let query = "SELECT id, value, timestamp FROM humidity WHERE 1=1";
   const params: any[] = [];
 
