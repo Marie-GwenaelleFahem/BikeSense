@@ -14,12 +14,19 @@ export interface TemperatureStats {
 }
 
 // convertir les timestamps epoch stockés en bigint en ISO 8601
-const convertTimestampEpochToISO = (timestampEpoch: bigint | number): string => {
-  const timestamp = typeof timestampEpoch === 'bigint' ? Number(timestampEpoch) : timestampEpoch;
+const convertTimestampEpochToISO = (
+  timestampEpoch: bigint | number
+): string => {
+  const timestamp =
+    typeof timestampEpoch === "bigint"
+      ? Number(timestampEpoch)
+      : timestampEpoch;
   return new Date(timestamp).toISOString();
 };
 
-export const fetchAllTemperatures = async (filters?: any): Promise<Temperature[]> => {
+export const fetchAllTemperatures = async (
+  filters?: any
+): Promise<Temperature[]> => {
   let query = "SELECT id, value, timestamp FROM temperature WHERE 1=1";
   const params: any[] = [];
 
@@ -56,32 +63,59 @@ export const fetchAllTemperatures = async (filters?: any): Promise<Temperature[]
 
   query += " ORDER BY timestamp DESC";
   const result = await executeQuery(query, params);
-  
+
   return result.map((temperature: any) => ({
     id: temperature.id,
     value: temperature.value,
-    date: convertTimestampEpochToISO(temperature.timestamp)
+    date: convertTimestampEpochToISO(temperature.timestamp),
   }));
 };
 
 export const fetchLatestTemperature = async (): Promise<Temperature | null> => {
-  const result = await executeQuery("SELECT id, value, timestamp FROM temperature ORDER BY timestamp DESC LIMIT 1");
+  const result = await executeQuery(
+    "SELECT id, value, timestamp FROM temperature ORDER BY timestamp DESC LIMIT 1"
+  );
   if (result.length === 0) return null;
-  
+
   return {
     id: result[0].id,
     value: result[0].value,
-    date: convertTimestampEpochToISO(result[0].timestamp)
+    date: convertTimestampEpochToISO(result[0].timestamp),
   };
 };
 
-export const fetchTemperatureStats = async (): Promise<TemperatureStats> => {
-  const result = await executeQuery("SELECT MIN(value) as min, MAX(value) as max, AVG(value) as avg, COUNT(*) as count FROM temperature");
+export const fetchTemperatureStats = async (
+  filters?: any
+): Promise<TemperatureStats> => {
+  let query =
+    "SELECT MIN(value) as min, MAX(value) as max, AVG(value) as avg, COUNT(*) as count FROM temperature WHERE 1=1";
+  const params: any[] = [];
+
+  if (filters?.start) {
+    const date = new Date(filters.start);
+    // si pas d'ehure renseignée on met 00:00:00
+    if (filters.start.length === 10) {
+      date.setHours(0, 0, 0, 0);
+    }
+    query += " AND timestamp >= ?";
+    params.push(date.getTime());
+  }
+  if (filters?.end) {
+    const date = new Date(filters.end);
+    // si pas d'heure renseignée on met 23:59:59
+    if (filters.end.length === 10) {
+      date.setHours(23, 59, 59, 999);
+    }
+    query += " AND timestamp <= ?";
+    params.push(date.getTime());
+  }
+
+  const result = await executeQuery(query, params);
   const stats = result[0];
   return {
     min: Number(stats.min),
     max: Number(stats.max),
     avg: Number(stats.avg),
-    count: Number(stats.count)
+    count: Number(stats.count),
   };
-}; 
+};
