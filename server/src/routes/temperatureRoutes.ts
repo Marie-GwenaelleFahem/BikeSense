@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { getAllTemperatures, getLatestTemperature, getAggregateTemperature } from "../controllers/temperatureController";
+import {
+  getAllTemperatures,
+  getLatestTemperature,
+  getAggregateTemperature,
+} from "../controllers/temperatureController";
 
 const router = Router();
 
