@@ -4,52 +4,26 @@ import {
   fetchLatestTemperature,
   fetchTemperatureStats,
 } from "../models/temperatureModel";
+import { validateAndCreateFilters } from "../lib/validation";
 
 // Récupérer toutes les températures
 export const getAllTemperatures = async (req: Request, res: Response) => {
   try {
-    // ajouter une liste exhaustive des parametres autorisés
-    const allowedParams = ["min", "max", "value", "start", "end"];
-    const hasUnknownParams = Object.keys(req.query).some(
-      (param) => !allowedParams.includes(param)
-    );
-    if (hasUnknownParams) {
+    const validation = validateAndCreateFilters(req, [
+      "min",
+      "max",
+      "value",
+      "start",
+      "end",
+    ]);
+
+    if (validation.error) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid parameters" });
+        .json({ success: false, message: validation.error });
     }
 
-    const filters = {
-      min: req.query.min ? Number(req.query.min) : undefined,
-      max: req.query.max ? Number(req.query.max) : undefined,
-      value: req.query.value ? Number(req.query.value) : undefined,
-      start: req.query.start as string,
-      end: req.query.end as string,
-    };
-
-    // vérification de la cohérence des filtres
-    if (
-      filters.min !== undefined &&
-      filters.max !== undefined &&
-      filters.min > filters.max
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "Min value cannot be greater than max value",
-      });
-    }
-    if (
-      filters.start &&
-      filters.end &&
-      new Date(filters.start) > new Date(filters.end)
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "Start date cannot be after end date",
-      });
-    }
-
-    const temperatures = await fetchAllTemperatures(filters);
+    const temperatures = await fetchAllTemperatures(validation.filters);
     res.json({ success: true, data: temperatures });
   } catch (error) {
     res
@@ -61,11 +35,12 @@ export const getAllTemperatures = async (req: Request, res: Response) => {
 // récupérer la température la plus récente
 export const getLatestTemperature = async (req: Request, res: Response) => {
   try {
-    // Aucun paramètre autorisé
-    if (Object.keys(req.query).length > 0) {
+    const validation = validateAndCreateFilters(req, []);
+
+    if (validation.error) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid parameters" });
+        .json({ success: false, message: validation.error });
     }
 
     const temperature = await fetchLatestTemperature();
@@ -86,35 +61,15 @@ export const getLatestTemperature = async (req: Request, res: Response) => {
 // Récupérere es statistiques (ou agregats)
 export const getAggregateTemperature = async (req: Request, res: Response) => {
   try {
-    // Validation simple des paramètres
-    const allowedParams = ["start", "end"];
-    const hasUnknownParams = Object.keys(req.query).some(
-      (param) => !allowedParams.includes(param)
-    );
-    if (hasUnknownParams) {
+    const validation = validateAndCreateFilters(req, ["start", "end"]);
+
+    if (validation.error) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid parameters" });
+        .json({ success: false, message: validation.error });
     }
 
-    const filters = {
-      start: req.query.start as string,
-      end: req.query.end as string,
-    };
-
-    // vérification de la cohérence des filtres
-    if (
-      filters.start &&
-      filters.end &&
-      new Date(filters.start) > new Date(filters.end)
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "Start date cannot be after end date",
-      });
-    }
-
-    const stats = await fetchTemperatureStats(filters);
+    const stats = await fetchTemperatureStats(validation.filters);
     res.json({ success: true, data: stats });
   } catch (error) {
     res
