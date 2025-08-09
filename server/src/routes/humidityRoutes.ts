@@ -1,14 +1,14 @@
 import { Router } from "express";
 import {
   getAggregateHumidity,
-  getAllHumidity,
+  getAllHumidities,
   getLatestHumidity,
 } from "../controllers/humidityController";
 
 const router = Router();
 
 // Routes pour les humidités
-router.get("/", getAllHumidity);
+router.get("/", getAllHumidities);
 router.get("/latest", getLatestHumidity);
 router.get("/aggregate", getAggregateHumidity);
 
