@@ -21,6 +21,8 @@ export const validateAndCreateFilters = (
     filters.max = req.query.max ? Number(req.query.max) : undefined;
   if (allowedParams.includes("value"))
     filters.value = req.query.value ? Number(req.query.value) : undefined;
+  if (allowedParams.includes("state"))
+    filters.state = req.query.state as string;
   if (allowedParams.includes("start"))
     filters.start = req.query.start as string;
   if (allowedParams.includes("end")) filters.end = req.query.end as string;

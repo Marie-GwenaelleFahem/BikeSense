@@ -1,12 +1,14 @@
 import express, { Request, Response } from "express";
 import temperatureRoutes from "./routes/temperatureRoutes";
 import humidityRoutes from "./routes/humidityRoutes";
+import movementRoutes from "./routes/movementRoutes";
 const app = express();
 
 app.use(express.json());
 
 app.use("/api/temperature", temperatureRoutes);
 app.use("/api/humidity", humidityRoutes);
+app.use("/api/movement", movementRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Backend is running");
