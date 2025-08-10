@@ -1,4 +1,5 @@
 import { executeQuery } from "../lib/db";
+import { convertTimestampEpochToISO } from "../lib/utils";
 
 export interface Temperature {
   id: number;
@@ -12,17 +13,6 @@ export interface TemperatureStats {
   avg: number;
   count: number;
 }
-
-// convertir les timestamps epoch stockés en bigint en ISO 8601
-const convertTimestampEpochToISO = (
-  timestampEpoch: bigint | number
-): string => {
-  const timestamp =
-    typeof timestampEpoch === "bigint"
-      ? Number(timestampEpoch)
-      : timestampEpoch;
-  return new Date(timestamp).toISOString();
-};
 
 export const fetchAllTemperatures = async (
   filters?: any
