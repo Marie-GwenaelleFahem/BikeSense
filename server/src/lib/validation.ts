@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 
-// Focntion pour vérifier les paramètres et créer les filtres
+// Function to validate parameters and create filters
 export const validateAndCreateFilters = (
   req: Request,
   allowedParams: string[]
 ) => {
-  // vérifier les paramètres
+  // validate parameters
   const hasUnknownParams = Object.keys(req.query).some(
     (param) => !allowedParams.includes(param)
   );
@@ -13,7 +13,7 @@ export const validateAndCreateFilters = (
     return { error: "Invalid parameters" };
   }
 
-  // Créer les filtres
+  // create filters
   const filters: any = {};
   if (allowedParams.includes("min"))
     filters.min = req.query.min ? Number(req.query.min) : undefined;
@@ -27,7 +27,7 @@ export const validateAndCreateFilters = (
     filters.start = req.query.start as string;
   if (allowedParams.includes("end")) filters.end = req.query.end as string;
 
-  // vérifier la cohérence des filtres
+  // validate the filters coherence
   if (
     filters.min !== undefined &&
     filters.max !== undefined &&

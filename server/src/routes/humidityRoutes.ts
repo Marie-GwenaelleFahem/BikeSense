@@ -7,7 +7,7 @@ import {
 
 const router = Router();
 
-// Routes pour les humidités
+// Routes for humidities
 router.get("/", getAllHumidities);
 router.get("/latest", getLatestHumidity);
 router.get("/aggregate", getAggregateHumidity);

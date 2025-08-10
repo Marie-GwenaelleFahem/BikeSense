@@ -12,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/temperature?start=2024-01-01&end=2024-01-01&aaaah=caca",
+					"raw": "{{baseUrl}}/temperature?start=2024-01-01&end=2024-01-01",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -27,10 +27,33 @@
 						{
 							"key": "end",
 							"value": "2024-01-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllMovements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/movement?state=stop-moving&start=2025-06-24",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"movement"
+					],
+					"query": [
+						{
+							"key": "state",
+							"value": "stop-moving"
 						},
 						{
-							"key": "aaaah",
-							"value": "caca"
+							"key": "start",
+							"value": "2025-06-24"
 						}
 					]
 				}
@@ -70,19 +93,31 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/temperature/latest?min=20",
+					"raw": "{{baseUrl}}/temperature/latest",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"temperature",
 						"latest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLatestMovement",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/temperature/latest",
+					"host": [
+						"{{baseUrl}}"
 					],
-					"query": [
-						{
-							"key": "min",
-							"value": "20"
-						}
+					"path": [
+						"temperature",
+						"latest"
 					]
 				}
 			},
@@ -94,13 +129,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/humidity/latestSS",
+					"raw": "{{baseUrl}}/humidity/latest",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"humidity",
-						"latestSS"
+						"latest"
 					]
 				}
 			},
@@ -156,6 +191,34 @@
 						{
 							"key": "end",
 							"value": "2024-01-02"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAggregateMovement",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/movement/aggregate?start=2025-06-24&end=2025-06-24",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"movement",
+						"aggregate"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2025-06-24"
+						},
+						{
+							"key": "end",
+							"value": "2025-06-24"
 						}
 					]
 				}

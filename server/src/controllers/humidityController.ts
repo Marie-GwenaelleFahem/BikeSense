@@ -7,7 +7,7 @@ import {
   fetchLatestHumidity,
 } from "../models/humidityModel";
 
-// Récupérer toutes les humidités
+// Get all humidities
 export const getAllHumidities = async (req: Request, res: Response) => {
   try {
     const validation = validateAndCreateFilters(req, [
@@ -33,7 +33,7 @@ export const getAllHumidities = async (req: Request, res: Response) => {
   }
 };
 
-// récupérer la humidité la plus récente
+// get the latest humidity
 export const getLatestHumidity = async (req: Request, res: Response) => {
   try {
     const validation = validateAndCreateFilters(req, []);
@@ -59,7 +59,7 @@ export const getLatestHumidity = async (req: Request, res: Response) => {
   }
 };
 
-// Récupérer les statistiques (ou agregats)
+// Get the humidity stats for a given period
 export const getAggregateHumidity = async (req: Request, res: Response) => {
   try {
     const validation = validateAndCreateFilters(req, ["start", "end"]);

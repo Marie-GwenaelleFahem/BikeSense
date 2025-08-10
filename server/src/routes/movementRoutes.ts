@@ -7,7 +7,7 @@ import {
 
 const router = Router();
 
-// Routes pour les mouvements
+// Routes for movements
 router.get("/", getAllMovements);
 router.get("/latest", getLatestMovement);
 router.get("/aggregate", getAggregateMovement);

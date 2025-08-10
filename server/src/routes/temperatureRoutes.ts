@@ -7,7 +7,7 @@ import {
 
 const router = Router();
 
-// Routes pour les températures
+// Routes for temperatures
 router.get("/", getAllTemperatures);
 router.get("/latest", getLatestTemperature);
 router.get("/aggregate", getAggregateTemperature);
