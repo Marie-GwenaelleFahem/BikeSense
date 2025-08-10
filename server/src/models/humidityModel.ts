@@ -34,7 +34,7 @@ export const fetchAllHumidities = async (
   }
   if (filters?.start) {
     const date = new Date(filters.start);
-    // si pas d'ehure renseignée on met 00:00:00
+    // if no hour is provided, set 00:00:00
     if (filters.start.length === 10) {
       date.setHours(0, 0, 0, 0);
     }
@@ -43,7 +43,7 @@ export const fetchAllHumidities = async (
   }
   if (filters?.end) {
     const date = new Date(filters.end);
-    // si pas d'heure renseignée on met 23:59:59
+    // if no hour is provided, set 23:59:59
     if (filters.end.length === 10) {
       date.setHours(23, 59, 59, 999);
     }
@@ -82,7 +82,7 @@ export const fetchHumidityStats = async (
 
   if (filters?.start) {
     const date = new Date(filters.start);
-    // si pas d'ehure renseignée on met 00:00:00
+    // if no hour is provided, set 00:00:00
     if (filters.start.length === 10) {
       date.setHours(0, 0, 0, 0);
     }
@@ -91,7 +91,7 @@ export const fetchHumidityStats = async (
   }
   if (filters?.end) {
     const date = new Date(filters.end);
-    // si pas d'heure renseignée on met 23:59:59
+    // if no hour is provided, set 23:59:59
     if (filters.end.length === 10) {
       date.setHours(23, 59, 59, 999);
     }

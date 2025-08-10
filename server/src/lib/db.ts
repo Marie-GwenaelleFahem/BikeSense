@@ -1,6 +1,6 @@
 import mariadb from "mariadb";
 
-// Configuration de la base de données
+// Database configuration
 const dbConfig = {
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || "3307"),
@@ -11,7 +11,7 @@ const dbConfig = {
 
 const pool = mariadb.createPool(dbConfig);
 
-// teste la connexion à al base
+// test the connection to the database
 export const testConnection = async (): Promise<boolean> => {
   let conn;
   try {
@@ -24,7 +24,7 @@ export const testConnection = async (): Promise<boolean> => {
   }
 };
 
-// exécute une requête
+// execute a query
 export const executeQuery = async (
   query: string,
   params?: any[]

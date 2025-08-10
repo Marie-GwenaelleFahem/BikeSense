@@ -6,7 +6,7 @@ import {
 } from "../models/movementModel";
 import { validateAndCreateFilters } from "../lib/validation";
 
-// Récupérer tous les mouvements
+// Get all movements
 export const getAllMovements = async (req: Request, res: Response) => {
   try {
     const validation = validateAndCreateFilters(req, ["state", "start", "end"]);
@@ -26,7 +26,7 @@ export const getAllMovements = async (req: Request, res: Response) => {
   }
 };
 
-// récupérer le mouvement le plus récent
+// get the latest movement
 export const getLatestMovement = async (req: Request, res: Response) => {
   try {
     const validation = validateAndCreateFilters(req, []);
@@ -52,7 +52,7 @@ export const getLatestMovement = async (req: Request, res: Response) => {
   }
 };
 
-// Récupérer les statistiques (ou agrégats)
+// Get the movement stats for a given period
 export const getAggregateMovement = async (req: Request, res: Response) => {
   try {
     const validation = validateAndCreateFilters(req, ["start", "end"]);

@@ -9,7 +9,7 @@ export interface Movement {
   x_axis: number | null;
   y_axis: number | null;
   z_axis: number | null;
-  date: string; // ISO string format
+  date: string;
 }
 
 export interface MovementStats {
@@ -32,7 +32,7 @@ export const fetchAllMovements = async (filters?: any): Promise<Movement[]> => {
   }
   if (filters?.start) {
     const date = new Date(filters.start);
-    // si pas d'ehure renseignée on met 00:00:00
+    // if no hour is provided, set 00:00:00
     if (filters.start.length === 10) {
       date.setHours(0, 0, 0, 0);
     }
@@ -41,7 +41,7 @@ export const fetchAllMovements = async (filters?: any): Promise<Movement[]> => {
   }
   if (filters?.end) {
     const date = new Date(filters.end);
-    // si pas d'heure renseignée on met 23:59:59
+    // if no hour is provided, set 23:59:59
     if (filters.end.length === 10) {
       date.setHours(23, 59, 59, 999);
     }
@@ -98,7 +98,7 @@ export const fetchMovementStats = async (
 
   if (filters?.start) {
     const date = new Date(filters.start);
-    // si pas d'ehure renseignée on met 00:00:00
+    // if no hour is provided, set 00:00:00
     if (filters.start.length === 10) {
       date.setHours(0, 0, 0, 0);
     }
@@ -107,7 +107,7 @@ export const fetchMovementStats = async (
   }
   if (filters?.end) {
     const date = new Date(filters.end);
-    // si pas d'heure renseignée on met 23:59:59
+    // if no hour is provided, set 23:59:59
     if (filters.end.length === 10) {
       date.setHours(23, 59, 59, 999);
     }

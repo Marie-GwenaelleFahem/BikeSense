@@ -6,7 +6,7 @@ import {
 } from "../models/temperatureModel";
 import { validateAndCreateFilters } from "../lib/validation";
 
-// Récupérer toutes les températures
+// Get all temperatures
 export const getAllTemperatures = async (req: Request, res: Response) => {
   try {
     const validation = validateAndCreateFilters(req, [
@@ -32,7 +32,7 @@ export const getAllTemperatures = async (req: Request, res: Response) => {
   }
 };
 
-// récupérer la température la plus récente
+// get the latest temperature
 export const getLatestTemperature = async (req: Request, res: Response) => {
   try {
     const validation = validateAndCreateFilters(req, []);
@@ -58,7 +58,7 @@ export const getLatestTemperature = async (req: Request, res: Response) => {
   }
 };
 
-// Récupérere es statistiques (ou agregats)
+// Get the temperature stats for a given period
 export const getAggregateTemperature = async (req: Request, res: Response) => {
   try {
     const validation = validateAndCreateFilters(req, ["start", "end"]);
