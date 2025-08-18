@@ -3,10 +3,10 @@ import mqtt from "mqtt";
 import WebSocket from "ws";
 
 // --- config ---
-const BROKER = process.env.BROKER_URL 
-const TOPIC  = process.env.TOPIC 
-const WS_HOST = process.env.WS_HOST 
-const TOKEN   = process.env.INGEST_TOKEN 
+const BROKER = process.env.BROKER_URL;
+const TOPIC  = process.env.TOPIC;
+const WS_HOST = process.env.WS_HOST;
+const TOKEN   = process.env.INGEST_TOKEN;
 const WS_URL  = `${WS_HOST}/?token=${encodeURIComponent(TOKEN)}`;
 
 console.log("[CFG]", { BROKER, TOPIC, WS_HOST, WS_URL });
