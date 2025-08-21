@@ -55,7 +55,11 @@ export const getLatestMovement = async (req: Request, res: Response) => {
 // Get the movement stats for a given period
 export const getAggregateMovement = async (req: Request, res: Response) => {
   try {
-    const validation = validateAndCreateFilters(req, ["start", "end"]);
+    const validation = validateAndCreateFilters(
+      req,
+      ["start", "end"],
+      ["start", "end"]
+    );
 
     if (validation.error) {
       return res

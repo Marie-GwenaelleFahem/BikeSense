@@ -62,7 +62,11 @@ export const getLatestHumidity = async (req: Request, res: Response) => {
 // Get the humidity stats for a given period
 export const getAggregateHumidity = async (req: Request, res: Response) => {
   try {
-    const validation = validateAndCreateFilters(req, ["start", "end"]);
+    const validation = validateAndCreateFilters(
+      req,
+      ["start", "end"],
+      ["start", "end"]
+    );
 
     if (validation.error) {
       return res
