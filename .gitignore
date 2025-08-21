@@ -26,7 +26,7 @@ dist-ssr
 server/node_modules/
 server/dist/
 server/.env
-
+server/test.env
 # React (client/)
 client/node_modules/
 client/build/
