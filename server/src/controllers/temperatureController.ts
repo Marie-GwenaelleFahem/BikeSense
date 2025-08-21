@@ -61,7 +61,11 @@ export const getLatestTemperature = async (req: Request, res: Response) => {
 // Get the temperature stats for a given period
 export const getAggregateTemperature = async (req: Request, res: Response) => {
   try {
-    const validation = validateAndCreateFilters(req, ["start", "end"]);
+    const validation = validateAndCreateFilters(
+      req,
+      ["start", "end"],
+      ["start", "end"]
+    );
 
     if (validation.error) {
       return res

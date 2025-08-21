@@ -52,6 +52,15 @@ npm start
 
 Le serveur sera accessible sur `http://localhost:3000`
 
+## Tests
+
+```bash
+npm test          # Mode watch
+npm run test:run  # Une seule fois
+```
+
+Tests de validation et gestion d'erreur pour l'API.
+
 ## API Endpoints
 
 ### Températures
