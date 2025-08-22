@@ -5,27 +5,60 @@ import type { TemperatureData, HumidityData, MovementData, ApiResponse } from '.
 export const temperatureService = {
   // Récupérer toutes les données de température
   getAll: (page = 1, limit = 10) => {
-    return apiUtils.getWithPagination<TemperatureData>('/temperature', page, limit);
+    return apiUtils.getWithPagination<TemperatureData>('/temperatures', page, limit);
+  },
+
+  // Récupérer les données de température avec filtrage
+  getFiltered: (params: {
+    min?: number;
+    max?: number;
+    value?: number;
+    start?: string;
+    end?: string;
+    page?: number;
+    limit?: number;
+  }) => {
+    const queryParams = new URLSearchParams();
+    if (params.min !== undefined) queryParams.append('min', params.min.toString());
+    if (params.max !== undefined) queryParams.append('max', params.max.toString());
+    if (params.value !== undefined) queryParams.append('value', params.value.toString());
+    if (params.start) queryParams.append('start', params.start);
+    if (params.end) queryParams.append('end', params.end);
+    if (params.page) queryParams.append('page', params.page.toString());
+    if (params.limit) queryParams.append('limit', params.limit.toString());
+
+    return apiClient.get<ApiResponse<TemperatureData[]>>(`/temperatures?${queryParams.toString()}`);
   },
 
   // Récupérer les données récentes de température
   getRecent: (limit = 10) => {
-    return apiUtils.getRecent<TemperatureData>('/temperature', limit);
+    return apiUtils.getRecent<TemperatureData>('/temperatures', limit);
   },
 
   // Récupérer les données de température par plage de temps
-  getByTimeRange: (startTime: number, endTime: number) => {
-    return apiUtils.getByTimeRange<TemperatureData>('/temperature', startTime, endTime);
+  getByTimeRange: (startDate: string, endDate: string) => {
+    return apiClient.get<ApiResponse<TemperatureData[]>>(`/temperatures/range?start=${startDate}&end=${endDate}`);
   },
 
   // Récupérer la dernière valeur de température
   getLatest: () => {
-    return apiClient.get<ApiResponse<TemperatureData>>('/temperature/latest');
+    return apiClient.get<ApiResponse<TemperatureData>>('/temperatures/latest');
   },
 
   // Récupérer une donnée de température par ID
   getById: (id: number) => {
-    return apiClient.get<ApiResponse<TemperatureData>>(`/temperature/${id}`);
+    return apiClient.get<ApiResponse<TemperatureData>>(`/temperatures/${id}`);
+  },
+
+  // Récupérer les statistiques agrégées de température
+  getAggregate: (startDate: string, endDate: string) => {
+    return apiClient.get<ApiResponse<{
+      count: number;
+      min: number;
+      max: number;
+      average: number;
+      median: number;
+    }>>(`/temperatures/aggregate?start=${startDate}&end=${endDate}`);
   },
 };
 
@@ -33,27 +66,60 @@ export const temperatureService = {
 export const humidityService = {
   // Récupérer toutes les données d'humidité
   getAll: (page = 1, limit = 10) => {
-    return apiUtils.getWithPagination<HumidityData>('/humidity', page, limit);
+    return apiUtils.getWithPagination<HumidityData>('/humidities', page, limit);
+  },
+
+  // Récupérer les données d'humidité avec filtrage
+  getFiltered: (params: {
+    min?: number;
+    max?: number;
+    value?: number;
+    start?: string;
+    end?: string;
+    page?: number;
+    limit?: number;
+  }) => {
+    const queryParams = new URLSearchParams();
+    if (params.min !== undefined) queryParams.append('min', params.min.toString());
+    if (params.max !== undefined) queryParams.append('max', params.max.toString());
+    if (params.value !== undefined) queryParams.append('value', params.value.toString());
+    if (params.start) queryParams.append('start', params.start);
+    if (params.end) queryParams.append('end', params.end);
+    if (params.page) queryParams.append('page', params.page.toString());
+    if (params.limit) queryParams.append('limit', params.limit.toString());
+
+    return apiClient.get<ApiResponse<HumidityData[]>>(`/humidities?${queryParams.toString()}`);
   },
 
   // Récupérer les données récentes d'humidité
   getRecent: (limit = 10) => {
-    return apiUtils.getRecent<HumidityData>('/humidity', limit);
+    return apiUtils.getRecent<HumidityData>('/humidities', limit);
   },
 
   // Récupérer les données d'humidité par plage de temps
-  getByTimeRange: (startTime: number, endTime: number) => {
-    return apiUtils.getByTimeRange<HumidityData>('/humidity', startTime, endTime);
+  getByTimeRange: (startDate: string, endDate: string) => {
+    return apiClient.get<ApiResponse<HumidityData[]>>(`/humidities/range?start=${startDate}&end=${endDate}`);
   },
 
   // Récupérer la dernière valeur d'humidité
   getLatest: () => {
-    return apiClient.get<ApiResponse<HumidityData>>('/humidity/latest');
+    return apiClient.get<ApiResponse<HumidityData>>('/humidities/latest');
   },
 
   // Récupérer une donnée d'humidité par ID
   getById: (id: number) => {
-    return apiClient.get<ApiResponse<HumidityData>>(`/humidity/${id}`);
+    return apiClient.get<ApiResponse<HumidityData>>(`/humidities/${id}`);
+  },
+
+  // Récupérer les statistiques agrégées d'humidité
+  getAggregate: (startDate: string, endDate: string) => {
+    return apiClient.get<ApiResponse<{
+      count: number;
+      min: number;
+      max: number;
+      average: number;
+      median: number;
+    }>>(`/humidities/aggregate?start=${startDate}&end=${endDate}`);
   },
 };
 
@@ -61,32 +127,50 @@ export const humidityService = {
 export const movementService = {
   // Récupérer toutes les données de mouvement
   getAll: (page = 1, limit = 10) => {
-    return apiUtils.getWithPagination<MovementData>('/movement', page, limit);
+    return apiUtils.getWithPagination<MovementData>('/movements', page, limit);
+  },
+
+  // Récupérer les données de mouvement avec filtrage
+  getFiltered: (params: {
+    state?: boolean;
+    start?: string;
+    end?: string;
+    page?: number;
+    limit?: number;
+  }) => {
+    const queryParams = new URLSearchParams();
+    if (params.state !== undefined) queryParams.append('state', params.state.toString());
+    if (params.start) queryParams.append('start', params.start);
+    if (params.end) queryParams.append('end', params.end);
+    if (params.page) queryParams.append('page', params.page.toString());
+    if (params.limit) queryParams.append('limit', params.limit.toString());
+
+    return apiClient.get<ApiResponse<MovementData[]>>(`/movements?${queryParams.toString()}`);
   },
 
   // Récupérer les données récentes de mouvement
   getRecent: (limit = 10) => {
-    return apiUtils.getRecent<MovementData>('/movement', limit);
+    return apiUtils.getRecent<MovementData>('/movements', limit);
   },
 
   // Récupérer les données de mouvement par plage de temps
-  getByTimeRange: (startTime: number, endTime: number) => {
-    return apiUtils.getByTimeRange<MovementData>('/movement', startTime, endTime);
+  getByTimeRange: (startDate: string, endDate: string) => {
+    return apiClient.get<ApiResponse<MovementData[]>>(`/movements/range?start=${startDate}&end=${endDate}`);
   },
 
   // Récupérer le dernier mouvement
   getLatest: () => {
-    return apiClient.get<ApiResponse<MovementData>>('/movement/latest');
+    return apiClient.get<ApiResponse<MovementData>>('/movements/latest');
   },
 
   // Récupérer une donnée de mouvement par ID
   getById: (id: number) => {
-    return apiClient.get<ApiResponse<MovementData>>(`/movement/${id}`);
+    return apiClient.get<ApiResponse<MovementData>>(`/movements/${id}`);
   },
 
   // Récupérer les mouvements par état
   getByState: (state: 'start-moving' | 'stationary' | 'stop-moving', page = 1, limit = 10) => {
-    return apiClient.get<ApiResponse<MovementData[]>>(`/movement/state/${state}?page=${page}&limit=${limit}`);
+    return apiClient.get<ApiResponse<MovementData[]>>(`/movements/state/${state}?page=${page}&limit=${limit}`);
   },
 
   // Récupérer les statistiques de mouvement
@@ -96,7 +180,19 @@ export const movementService = {
       current_state: string;
       last_movement_time: number;
       average_duration: number;
-    }>>('/movement/stats');
+    }>>('/movements/stats');
+  },
+
+  // Récupérer les statistiques agrégées de mouvement
+  getAggregate: (startDate: string, endDate: string) => {
+    return apiClient.get<ApiResponse<{
+      count: number;
+      total_duration: number;
+      average_duration: number;
+      states_count: Record<string, number>;
+      longest_movement: number;
+      shortest_movement: number;
+    }>>(`/movements/aggregate?start=${startDate}&end=${endDate}`);
   },
 };
 
@@ -121,11 +217,11 @@ export const sensorService = {
   },
 
   // Récupérer les données par plage de temps pour tous les capteurs
-  getByTimeRangeAll: (startTime: number, endTime: number) => {
+  getByTimeRangeAll: (startDate: string, endDate: string) => {
     return Promise.all([
-      temperatureService.getByTimeRange(startTime, endTime),
-      humidityService.getByTimeRange(startTime, endTime),
-      movementService.getByTimeRange(startTime, endTime),
+      temperatureService.getByTimeRange(startDate, endDate),
+      humidityService.getByTimeRange(startDate, endDate),
+      movementService.getByTimeRange(startDate, endDate),
     ]);
   },
 }; 
