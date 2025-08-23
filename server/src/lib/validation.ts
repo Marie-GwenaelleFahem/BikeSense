@@ -58,7 +58,7 @@ export const validateAndCreateFilters = (
   // validate state parameter for movement
   if (allowedParams.includes("state")) {
     if (req.query.state) {
-      const validStates = ["start-moving", "stop-moving", "stationnary"];
+      const validStates = ["start-moving", "stop-moving", "stationary"];
       if (!validStates.includes(req.query.state as string)) {
         return {
           error: `Invalid state. Must be one of: ${validStates.join(", ")}`,

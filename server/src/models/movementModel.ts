@@ -3,7 +3,7 @@ import { convertTimestampEpochToISO } from "../lib/utils";
 
 export interface Movement {
   id: number;
-  state: "start-moving" | "stop-moving" | "stationnary";
+  state: "start-moving" | "stop-moving" | "stationary";
   move_duration: number | null;
   move_number: number | null;
   x_axis: number | null;
@@ -16,7 +16,7 @@ export interface MovementStats {
   total_movements: number;
   start_movements: number;
   stop_movements: number;
-  stationnary_count: number;
+  stationary_count: number;
   avg_move_duration: number | null;
   total_duration: number;
 }
@@ -90,7 +90,7 @@ export const fetchMovementStats = async (
       COUNT(*) as total_movements,
       SUM(CASE WHEN state = 'start-moving' THEN 1 ELSE 0 END) as start_movements,
       SUM(CASE WHEN state = 'stop-moving' THEN 1 ELSE 0 END) as stop_movements,
-      SUM(CASE WHEN state = 'stationnary' THEN 1 ELSE 0 END) as stationnary_count,
+      SUM(CASE WHEN state = 'stationary' THEN 1 ELSE 0 END) as stationary_count,
       AVG(CASE WHEN move_duration IS NOT NULL THEN move_duration END) as avg_move_duration,
       SUM(CASE WHEN move_duration IS NOT NULL THEN move_duration ELSE 0 END) as total_duration
     FROM movement WHERE 1=1`;
@@ -121,7 +121,7 @@ export const fetchMovementStats = async (
     total_movements: Number(stats.total_movements),
     start_movements: Number(stats.start_movements),
     stop_movements: Number(stats.stop_movements),
-    stationnary_count: Number(stats.stationnary_count),
+    stationary_count: Number(stats.stationary_count),
     avg_move_duration: stats.avg_move_duration
       ? Number(stats.avg_move_duration)
       : null,

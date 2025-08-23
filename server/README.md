@@ -252,7 +252,7 @@ GET /api/movement
 
 **Paramètres de filtrage (optionnels) :**
 
-- `state` : État du mouvement (`start-moving`, `stop-moving`, `stationnary`)
+- `state` : État du mouvement (`start-moving`, `stop-moving`, `stationary`)
 - `start` : Date/heure de début (ex: `2025-08-05` ou `2025-08-05T09:00:00`)
 - `end` : Date/heure de fin (ex: `2025-08-05` ou `2025-08-05T17:00:00`)
 
@@ -315,7 +315,7 @@ GET /api/movement/latest
   "success": true,
   "data": {
     "id": 1250,
-    "state": "stationnary",
+    "state": "stationary",
     "move_duration": null,
     "move_number": null,
     "x_axis": null,
@@ -341,7 +341,7 @@ GET /api/movement/aggregate
     "total_movements": 150,
     "start_movements": 45,
     "stop_movements": 45,
-    "stationnary_count": 60,
+    "stationary_count": 60,
     "avg_move_duration": 125.5,
     "total_duration": 5647
   }

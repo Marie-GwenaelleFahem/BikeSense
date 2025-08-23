@@ -1,17 +1,19 @@
-import 'dotenv/config';
+import "dotenv/config";
 import mqtt from "mqtt";
 import WebSocket from "ws";
+import { DataInsertionService } from "./src/lib/dataInsertionService.js";
 
 // --- config ---
 const BROKER = process.env.BROKER_URL;
-const TOPIC  = process.env.TOPIC;
+const TOPIC = process.env.TOPIC;
 const WS_HOST = process.env.WS_HOST;
-const TOKEN   = process.env.INGEST_TOKEN;
-const WS_URL  = `${WS_HOST}/?token=${encodeURIComponent(TOKEN)}`;
+const TOKEN = process.env.INGEST_TOKEN;
+const WS_URL = `${WS_HOST}/?token=${encodeURIComponent(TOKEN)}`;
 
 console.log("[CFG]", { BROKER, TOPIC, WS_HOST, WS_URL });
 
-let ws, wsReady = false;
+let ws,
+  wsReady = false;
 
 // --- Connexion WS avec retry + keepalive ---
 function connectWS() {
@@ -47,7 +49,8 @@ const client = mqtt.connect(BROKER);
 client.on("connect", () => {
   console.log("[MQTT] connecté à", BROKER);
   client.subscribe(TOPIC, (e) =>
-    e ? console.error("[MQTT] erreur:", e.message)
+    e
+      ? console.error("[MQTT] erreur:", e.message)
       : console.log("[MQTT] abonné", TOPIC)
   );
 });
@@ -59,18 +62,37 @@ const queue = [];
 setInterval(() => {
   if (!wsReady || queue.length === 0) return;
   const batch = queue.splice(0, Math.min(queue.length, 100));
-  try { ws.send(JSON.stringify(batch)); }
-  catch { queue.unshift(...batch); }
+  try {
+    ws.send(JSON.stringify(batch));
+  } catch {
+    queue.unshift(...batch);
+  }
 }, 500);
 
 client.on("message", (topic, buf, pkt) => {
   const string = buf.toString().trim();
   if (!(string.startsWith("{") || string.startsWith("["))) return;
-  let parsed; try { parsed = JSON.parse(string); } catch { return; }
+  let parsed;
+  try {
+    parsed = JSON.parse(string);
+  } catch {
+    return;
+  }
   const items = Array.isArray(parsed) ? parsed : [parsed];
   const now = new Date().toISOString();
 
   for (const item of items) {
-    queue.push({ ...item, _topic: topic, _ts_src: now, _retained: !!pkt?.retain });
+    const enrichedItem = {
+      ...item,
+      _topic: topic,
+      _ts_src: now,
+      _retained: !!pkt?.retain,
+    };
+    queue.push(enrichedItem);
+
+    // insertion en base de données
+    DataInsertionService.insertData(enrichedItem).catch((error) => {
+      console.error("[DB] Erreur insertion:", error);
+    });
   }
 });
