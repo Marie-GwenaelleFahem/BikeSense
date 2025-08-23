@@ -11,7 +11,8 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "mqtt": "node services/Listener.js"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +20,8 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^5.1.0",
-    "mariadb": "^3.4.5"
+    "mariadb": "^3.4.5",
+    "mqtt": "^5.3.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
