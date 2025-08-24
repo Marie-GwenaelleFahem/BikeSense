@@ -1,7 +1,7 @@
 import "dotenv/config";
 import mqtt from "mqtt";
 import WebSocket from "ws";
-import { DataInsertionService } from "./src/lib/dataInsertionService.js";
+import { DataInsertionService } from "./src/lib/dataInsertionService";
 
 // --- config ---
 const BROKER = process.env.BROKER_URL;
@@ -58,7 +58,7 @@ client.on("connect", () => {
 client.on("error", (e) => console.error("[MQTT] erreur:", e.message));
 
 // --- Buffer + envoi ---
-const queue = [];
+const queue: any[] = [];
 setInterval(() => {
   if (!wsReady || queue.length === 0) return;
   const batch = queue.splice(0, Math.min(queue.length, 100));

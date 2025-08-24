@@ -2,6 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "src/server.ts",
   "scripts": {
     "start": "ts-node src/server.ts",
@@ -12,7 +13,7 @@
     "test:run": "vitest run",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "mqtt": "node services/Listener.js"
+    "mqtt": "tsx Listener.ts"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,7 @@
     "nodemon": "^3.1.10",
     "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.5",
     "typescript": "^5.8.3",
     "vitest": "^2.1.8"
   }
