@@ -9,6 +9,7 @@ import Notfound from './pages/Notfound';
 import { AlertSettingsProvider } from './context/AlertSettingsContext';
 import History from './pages/History';
 import Chart from './pages/Chart';
+import Register from './pages/Register';
 
 function App() {
     return (
@@ -16,13 +17,14 @@ function App() {
             <AlertSettingsProvider>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/history" element={<History />} />
-                    <Route path="/chart" element={<Chart />} />
-                        <Route path="*" element={<Notfound />} />
-                    </Route>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/history" element={<History />} />
+                <Route path="/chart" element={<Chart />} />
+                <Route path="*" element={<Notfound />} />
+                </Route>
                 </Routes>
             </AlertSettingsProvider>
         </BrowserRouter>
