@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Lock, Mail, Bike, ArrowRight, User, Check, X } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../services/api';
 
 const Register: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -18,19 +20,28 @@ const Register: React.FC = () => {
     const digitOk = /[0-9]/.test(password);
     const isPasswordStrong = lengthOk && upperOk && lowerOk && digitOk;
 
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as any)?.from?.pathname ?? '/dashboard';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isPasswordStrong || password !== confirmPassword) {
       return;
     }
     setIsLoading(true);
-    
-    // Simulation d'une connexion
-    setTimeout(() => {
+    try {
+      // Appel d'inscription (adapté à l'API attendue)
+      await apiFetch('/auth/register', { method: 'POST', json: { firstname, lastname, email, password } });
+      // Puis login pour récupérer la session/cookie
+      await login(email, password);
+      navigate(from, { replace: true });
+    } catch (e) {
+      // TODO: afficher une erreur
+    } finally {
       setIsLoading(false);
-      // Ici vous pouvez ajouter la logique de connexion réelle
-      window.location.href = '/dashboard';
-    }, 1500);
+    }
   };
 
 

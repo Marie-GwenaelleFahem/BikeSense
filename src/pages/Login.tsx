@@ -1,24 +1,32 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, Lock, Mail, Bike, ArrowRight } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/dashboard';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulation d'une connexion
-    setTimeout(() => {
+    try {
+      await login(email, password);
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error('Erreur de connexion:', error);
+    } finally {
       setIsLoading(false);
-      // Ici vous pouvez ajouter la logique de connexion réelle
-      window.location.href = '/dashboard';
-    }, 1500);
+    }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 p-4">

@@ -10,6 +10,7 @@ import { AlertSettingsProvider } from './context/AlertSettingsContext';
 import History from './pages/History';
 import Chart from './pages/Chart';
 import Register from './pages/Register';
+import { RequireAuth } from './routes/AppRoutes';
 
 function App() {
     return (
@@ -17,15 +18,17 @@ function App() {
             <AlertSettingsProvider>
             <Routes>
                 <Route path="/" element={<Layout />}>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/history" element={<History />} />
-                <Route path="/chart" element={<Chart />} />
-                <Route path="*" element={<Notfound />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route element={<RequireAuth />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/settings" element={<Settings />} />
+                        <Route path="/history" element={<History />} />
+                        <Route path="/chart" element={<Chart />} />
+                    </Route>
+                    <Route path="*" element={<Notfound />} />
                 </Route>
-                </Routes>
+            </Routes>
             </AlertSettingsProvider>
         </BrowserRouter>
     );
