@@ -154,6 +154,15 @@ wss://xxx.trycloudflare.com/ws?token=change-me
 - Le /ws → c’est le location qui a été configuré dans Nginx.
 - ?token=... → c’est pour l'auth (trouvable dans le fichier websocket.js dans le dossier server).
 
+## Lancer le cloudflare
+Sur le même serveur, après avoir lancer "cloudfare" et avoir obtenu le lien ainsi que le websocket.js, il faut lancer 
+```bash
+npx wscat -c "wss://bangladesh-bids-ever-martin.trycloudflare.com  /?token=change-me"
+```
+Et avoir un "connect" dans le côté websocket.js
+
+En tout, on aura 3 serveurs d'ouvert.
+
 ## Pont MQTT → WebSocket (client)
 Ce script lit les messages du broker MQTT (dans le même réseau que le RPi) et les envoie par WebSocket vers le serveur (exposé via Nginx ou Cloudflare Tunnel).
 **1. Fichier `Listener.js`**
