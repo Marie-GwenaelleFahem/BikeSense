@@ -157,7 +157,7 @@ wss://xxx.trycloudflare.com/ws?token=change-me
 ## Lancer le cloudflare
 Sur le même serveur, après avoir lancer "cloudfare" et avoir obtenu le lien ainsi que le websocket.js, il faut lancer 
 ```bash
-npx wscat -c "wss://bangladesh-bids-ever-martin.trycloudflare.com  /?token=change-me"
+npx wscat -c "wss://bangladesh-bids-ever-martin.trycloudflare.com/?token=change-me"
 ```
 Et avoir un "connect" dans le côté websocket.js
 
