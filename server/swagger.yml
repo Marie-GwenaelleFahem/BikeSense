@@ -1,0 +1,257 @@
+openapi: 3.0.0
+info:
+  title: BikeSense API
+  version: 1.0.0
+  description: API for bikesense sensors data and user management
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /api/temperature:
+    get:
+      summary: Get all temperature measurements
+      tags: [Temperature]
+      parameters:
+        - in: query
+          name: min
+          schema: { type: number }
+        - in: query
+          name: max
+          schema: { type: number }
+        - in: query
+          name: value
+          schema: { type: number }
+        - in: query
+          name: start
+          schema: { type: string, format: date }
+        - in: query
+          name: end
+          schema: { type: string, format: date }
+      responses:
+        200:
+          description: List of temperature measurements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Temperature"
+
+  /api/temperature/latest:
+    get:
+      summary: Get latest temperature measurement
+      tags: [Temperature]
+      responses:
+        200:
+          description: Latest temperature measurement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Temperature"
+
+  /api/temperature/aggregate:
+    get:
+      summary: Get temperature statistics
+      tags: [Temperature]
+      parameters:
+        - in: query
+          name: start
+          schema: { type: string, format: date }
+        - in: query
+          name: end
+          schema: { type: string, format: date }
+      responses:
+        200:
+          description: Temperature statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemperatureStats"
+
+  /api/humidity:
+    get:
+      summary: Get all humidity measurements
+      tags: [Humidity]
+      parameters:
+        - in: query
+          name: min
+          schema: { type: number }
+        - in: query
+          name: max
+          schema: { type: number }
+        - in: query
+          name: value
+          schema: { type: number }
+        - in: query
+          name: start
+          schema: { type: string, format: date }
+        - in: query
+          name: end
+          schema: { type: string, format: date }
+      responses:
+        200:
+          description: List of humidity measurements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Humidity"
+
+  /api/humidity/latest:
+    get:
+      summary: Get latest humidity measurement
+      tags: [Humidity]
+      responses:
+        200:
+          description: Latest humidity measurement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Humidity"
+
+  /api/humidity/aggregate:
+    get:
+      summary: Get humidity statistics
+      tags: [Humidity]
+      parameters:
+        - in: query
+          name: start
+          schema: { type: string, format: date }
+        - in: query
+          name: end
+          schema: { type: string, format: date }
+      responses:
+        200:
+          description: Humidity statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HumidityStats"
+
+  /api/movement:
+    get:
+      summary: Get all movements
+      tags: [Movement]
+      parameters:
+        - in: query
+          name: state
+          schema:
+            type: string
+            enum: [start-moving, stop-moving, stationnary]
+        - in: query
+          name: start
+          schema: { type: string, format: date }
+        - in: query
+          name: end
+          schema: { type: string, format: date }
+      responses:
+        200:
+          description: List of movements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Movement"
+
+  /api/movement/latest:
+    get:
+      summary: Get latest movement
+      tags: [Movement]
+      responses:
+        200:
+          description: Latest movement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Movement"
+
+  /api/movement/aggregate:
+    get:
+      summary: Get movement statistics
+      tags: [Movement]
+      parameters:
+        - in: query
+          name: start
+          schema: { type: string, format: date }
+        - in: query
+          name: end
+          schema: { type: string, format: date }
+      responses:
+        200:
+          description: Movement statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovementStats"
+
+components:
+  schemas:
+    Temperature:
+      type: object
+      properties:
+        id: { type: integer }
+        value: { type: number }
+        date: { type: string, format: date-time }
+      required: [id, value, date]
+
+    TemperatureStats:
+      type: object
+      properties:
+        min: { type: number }
+        max: { type: number }
+        avg: { type: number }
+        count: { type: integer }
+      required: [min, max, avg, count]
+
+    Humidity:
+      type: object
+      properties:
+        id: { type: integer }
+        value: { type: number }
+        date: { type: string, format: date-time }
+      required: [id, value, date]
+
+    HumidityStats:
+      type: object
+      properties:
+        min: { type: number }
+        max: { type: number }
+        avg: { type: number }
+        count: { type: integer }
+      required: [min, max, avg, count]
+
+    Movement:
+      type: object
+      properties:
+        id: { type: integer }
+        state:
+          type: string
+          enum: [start-moving, stop-moving, stationnary]
+        move_duration: { type: number, nullable: true }
+        move_number: { type: integer, nullable: true }
+        x_axis: { type: number, nullable: true }
+        y_axis: { type: number, nullable: true }
+        z_axis: { type: number, nullable: true }
+        date: { type: string, format: date-time }
+      required: [id, state, date]
+
+    MovementStats:
+      type: object
+      properties:
+        total_movements: { type: integer }
+        start_movements: { type: integer }
+        stop_movements: { type: integer }
+        stationnary_count: { type: integer }
+        avg_move_duration: { type: number, nullable: true }
+        total_duration: { type: number }
+      required:
+        [
+          total_movements,
+          start_movements,
+          stop_movements,
+          stationnary_count,
+          total_duration,
+        ]
