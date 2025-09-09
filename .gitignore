@@ -31,3 +31,5 @@ server/test.env
 client/node_modules/
 client/build/
 client/.env
+front/.env
+front/.env.local
