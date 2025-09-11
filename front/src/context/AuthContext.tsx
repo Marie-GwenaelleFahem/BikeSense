@@ -20,7 +20,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const refreshMe = useCallback(async () => {
     try {
       const response = await apiFetch('/auth/me', { method: 'GET' });
-      setUser(response.data as User);
+      setUser(response as User);
     } catch (e: any) {
       console.error('Erreur refreshMe:', e?.message || e || 'Erreur inconnue');
       setUser(null);
