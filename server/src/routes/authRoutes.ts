@@ -141,7 +141,10 @@ router.post("/logout", (req: Request, res: Response) => {
 // GET /me - Récupérer les infos utilisateur (protégé)
 router.get("/me", authMiddleware, (req: Request, res: Response) => {
   // L'utilisateur est déjà attaché à req.user par le middleware
-  res.json(req.user);
+  res.json({
+    success: true,
+    data: req.user
+  });
 });
 
 export default router;
