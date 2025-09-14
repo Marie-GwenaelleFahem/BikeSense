@@ -76,7 +76,7 @@ jobs:
             cd ~/bikesense
 
             # Nettoyer les anciens conteneurs si nécessaire
-            docker-compose -f docker-compose.production.yml down --remove-orphans 2>/dev/null || true
+            docker compose down --remove-orphans 2>/dev/null || true
 
             # Pull les nouvelles images depuis Docker Hub
             docker pull ${{ secrets.DOCKER_USERNAME }}/bikesense-api:${{ github.sha }}
@@ -86,14 +86,17 @@ jobs:
             export BIKESENSE_API_TAG=${{ github.sha }}
             export BIKESENSE_WEB_TAG=${{ github.sha }}
             export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-            docker-compose -f docker-compose.production.yml up -d
+            
+            # Utiliser le fichier de production
+            cp docker-compose.production.yml docker-compose.yml
+            docker compose up -d
 
             # Attendre que les services soient prêts
             sleep 30
 
             # Vérification post-déploiement
             echo "✅ Checking services health..."
-            docker-compose -f docker-compose.production.yml ps
+            docker compose ps
             
             # Test de santé des services
             echo "🏥 Health checks..."
