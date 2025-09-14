@@ -7,8 +7,18 @@ on:
 
 jobs:
   build:
-    name: Build & Push Docker Image
+    name: Build & Push Docker Images
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [backend, frontend]
+        include:
+          - service: backend
+            context: ./server
+            image_name: bikesense-api
+          - service: frontend
+            context: ./front
+            image_name: bikesense-web
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,32 +32,37 @@ jobs:
           fi
           echo "✅ No compromised package versions found"
 
-      - name: Login to Docker registry
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
-          registry: ${{ secrets.DOCKER_REGISTRY }}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: 🐳 Build & push
+      - name: 🐳 Build & push ${{ matrix.service }}
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ${{ matrix.context }}
           push: true
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           build-args: |
             NPM_CONFIG_IGNORE_SCRIPTS=true
           tags: |
-            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}
-            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/my-app:latest
-
-      - name: 📥 Set image tag for deploy
-        run: echo "IMAGE_TAG=${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}" >> $GITHUB_ENV
+            ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image_name }}:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/${{ matrix.image_name }}:latest
 
   deploy:
     name: Deploy on Debian via SSH
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: 🔑 SSH & deploy
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -59,10 +74,39 @@ jobs:
             mkdir -p ~/bikesense
             cd ~/bikesense
 
-            # Pull & up avec vérification
-            docker-compose pull
-            docker-compose up -d
-            
+            # Nettoyer les anciens conteneurs si nécessaire
+            docker-compose -f docker-compose.production.yml down --remove-orphans 2>/dev/null || true
+
+            # Pull les nouvelles images depuis Docker Hub
+            docker pull ${{ secrets.DOCKER_USERNAME }}/bikesense-api:${{ github.sha }}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/bikesense-web:${{ github.sha }}
+
+            # Redémarrer les services avec les nouvelles images
+            export BIKESENSE_API_TAG=${{ github.sha }}
+            export BIKESENSE_WEB_TAG=${{ github.sha }}
+            export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+            docker-compose -f docker-compose.production.yml up -d
+
+            # Attendre que les services soient prêts
+            sleep 30
+
             # Vérification post-déploiement
+            echo "✅ Checking services health..."
+            docker-compose -f docker-compose.production.yml ps
+            
+            # Test de santé des services
+            echo "🏥 Health checks..."
+            curl -f http://localhost:3000/api/health || echo "❌ Backend health check failed"
+            curl -f http://localhost/ || echo "❌ Frontend health check failed"
+            
             echo "✅ Deployment completed successfully"
-            docker-compose ps
+
+      - name: 📋 Copy docker-compose to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "docker-compose.production.yml"
+          target: "~/bikesense/"
+          overwrite: true
