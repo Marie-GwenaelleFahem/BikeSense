@@ -69,6 +69,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 2320
           script: |
             # Créer et aller dans le dossier de déploiement
             mkdir -p ~/bikesense
@@ -107,6 +108,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 2320
           source: "docker-compose.production.yml"
           target: "~/bikesense/"
           overwrite: true
