@@ -32,6 +32,7 @@ COPY --from=deps --chown=bikesense:nodejs /app/node_modules ./node_modules
 # Copy built application
 COPY --from=build --chown=bikesense:nodejs /app/dist ./dist
 COPY --from=build --chown=bikesense:nodejs /app/package*.json ./
+COPY --from=build --chown=bikesense:nodejs /app/swagger.yml ./
 
 # Switch to non-root user
 USER bikesense
