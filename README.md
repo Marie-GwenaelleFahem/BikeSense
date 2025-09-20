@@ -6,7 +6,7 @@
 [![MariaDB](https://img.shields.io/badge/MariaDB-10.11-003545?style=flat&logo=mariadb)](https://mariadb.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat&logo=docker)](https://www.docker.com/)
 
-**BikeSense** est une application de surveillance en temps réel pour vélos connectés. Elle collecte et analyse les données de capteurs (température, humidité, mouvement) pour offrir une expérience de monitoring complète avec un système d'alertes intelligent.
+**BikeSense** est une application de surveillance en temps réel pour des magasins de vélos électriques, permettant le monitoring des conditions d'entreposage et la protection contre le vol. Elle collecte et analyse les données de capteurs (température, humidité, mouvement) pour offrir une expérience de monitoring complète avec un système d'alertes intelligent.
 
 ## 📋 Table des matières
 
