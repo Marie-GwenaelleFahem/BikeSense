@@ -75,7 +75,8 @@ router.post("/login", async (req: Request, res: Response) => {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Email et mot de passe requis"
+        message: !email ? "Veuillez saisir votre email" : "Veuillez saisir votre mot de passe",
+        errorType: !email ? "EMAIL_REQUIRED" : "PASSWORD_REQUIRED"
       });
     }
 
@@ -84,7 +85,8 @@ router.post("/login", async (req: Request, res: Response) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: "Email ou mot de passe incorrect"
+        message: "Aucun compte trouvé avec cet email",
+        errorType: "EMAIL_NOT_FOUND"
       });
     }
 
@@ -93,7 +95,8 @@ router.post("/login", async (req: Request, res: Response) => {
     if (!isValidPassword) {
       return res.status(401).json({
         success: false,
-        message: "Email ou mot de passe incorrect"
+        message: "Mot de passe incorrect",
+        errorType: "INVALID_PASSWORD"
       });
     }
 

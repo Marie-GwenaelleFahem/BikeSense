@@ -42,11 +42,31 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       await apiFetch('/auth/login', { method: 'POST', json: { email, password } });
       await refreshMe();
       success('Connexion réussie', 'Bienvenue dans BikeSense !');
-    } catch (error: any) {
-      console.error('Erreur de connexion:', error?.message || error || 'Erreur inconnue');
-      const errorMessage = error?.message || 'Erreur de connexion';
-      error('Erreur de connexion', errorMessage);
-      throw error; // Relancer l'erreur pour que le composant Login puisse l'attraper
+    } catch (err: any) {
+      console.error('Erreur de connexion:', err?.message || err || 'Erreur inconnue');
+      
+      // Gestion spécifique des erreurs selon le type
+      const errorMessage = err?.message || 'Erreur de connexion';
+      const errorType = err?.errorType;
+      
+      switch (errorType) {
+        case 'EMAIL_REQUIRED':
+          error('Email requis', 'Veuillez saisir votre adresse email');
+          break;
+        case 'PASSWORD_REQUIRED':
+          error('Mot de passe requis', 'Veuillez saisir votre mot de passe');
+          break;
+        case 'EMAIL_NOT_FOUND':
+          error('Email introuvable', 'Aucun compte n\'est associé à cet email');
+          break;
+        case 'INVALID_PASSWORD':
+          error('Mot de passe incorrect', 'Le mot de passe saisi est incorrect');
+          break;
+        default:
+          error('Erreur de connexion', errorMessage);
+      }
+      
+      throw err; // Relancer l'erreur pour que le composant Login puisse l'attraper
     }
   }, [refreshMe, success, error]);
 

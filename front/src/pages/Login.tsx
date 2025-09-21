@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, Lock, Mail, Bike, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useToastHelpers } from '../components/Toast';
 
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +11,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { login, user } = useAuth();
+  const { warning } = useToastHelpers();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
@@ -23,12 +25,32 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validation côté client
+    if (!email.trim()) {
+      warning('Email requis', 'Veuillez saisir votre adresse email');
+      return;
+    }
+    
+    if (!password.trim()) {
+      warning('Mot de passe requis', 'Veuillez saisir votre mot de passe');
+      return;
+    }
+    
+    // Validation format email basique
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      warning('Email invalide', 'Veuillez saisir un email valide');
+      return;
+    }
+    
     setIsLoading(true);
     try {
-      await login(email, password);
+      await login(email.trim(), password);
       navigate(from, { replace: true });
     } catch (error) {
       console.error('Erreur de connexion:', error);
+      // Les erreurs sont déjà gérées dans AuthContext avec les toasts
     } finally {
       setIsLoading(false);
     }

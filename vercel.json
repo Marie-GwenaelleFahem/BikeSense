@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "name": "bikesense-frontend",
+  "builds": [
+    {
+      "src": "front/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "front/dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "functions": {},
+  "env": {
+    "VITE_API_BASE_URL": "@api-base-url"
+  }
+}

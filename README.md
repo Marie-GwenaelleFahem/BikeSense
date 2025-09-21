@@ -21,7 +21,6 @@ BikeSense-main/
 # Backend
 cd server
 npm install
-JWT_SECRET="dev_secret_123456789" npm run dev
 
 # Frontend (nouveau terminal)
 cd front
@@ -82,11 +81,6 @@ Le système inclut un système d'authentification complet avec gestion des rôle
 - MariaDB (ou système mock)
 - Swagger pour la documentation
 
-## 🚨 Problèmes Courants
-
-**En cas de conflit de services ou problèmes de ports :**
-👉 **Consultez le [Guide de Dépannage](./TROUBLESHOOTING.md)**
-
 ## 📚 Documentation
 
 - [API Routes](./server/API_Routes.md)
@@ -95,9 +89,9 @@ Le système inclut un système d'authentification complet avec gestion des rôle
 
 ## 🤝 Équipe
 
-- **Jonathan** - Développement principal
-- **Collègue** - Implémentation authentification
-- **Marc** - Infrastructure serveur
+- Jonathan - Développement front-end
+- Collègue - Implémentation authentification
+- Admin - Infrastructure serveur
 
 ---
 

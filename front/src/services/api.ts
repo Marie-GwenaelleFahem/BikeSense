@@ -95,6 +95,10 @@ export async function apiFetch(path: string, init: { method: string; json?: any 
       
       const errorObj = new Error(message);
       (errorObj as any).status = error.response.status;
+      // Transmettre le type d'erreur si disponible
+      if (serverError && typeof serverError === 'object' && serverError.errorType) {
+        (errorObj as any).errorType = serverError.errorType;
+      }
       throw errorObj;
     }
     
