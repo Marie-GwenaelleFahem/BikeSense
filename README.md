@@ -90,7 +90,9 @@ Le système inclut un système d'authentification complet avec gestion des rôle
 ## 🤝 Équipe
 
 - Jonathan - Développement front-end
-- Collègue - Implémentation authentification
+- Julie - Développeuse back-end (base de données)
+- Rosine - IoT + scrpit MQTT sur serveur Debian
+- Gwen - Implémentation authentification et déploiement
 - Admin - Infrastructure serveur
 
 ---
