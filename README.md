@@ -47,8 +47,8 @@ docker-compose -f docker-compose.production.yml up -d
 Le système inclut un système d'authentification complet avec gestion des rôles :
 
 ### Compte de Test
-- **Email :** `test@bikesense.com`
-- **Mot de passe :** `password123`
+- **Email :** `admin@bikesense.com`
+- **Mot de passe :** `admin123`
 - **Rôle :** Administrateur
 
 ### Rôles Disponibles
