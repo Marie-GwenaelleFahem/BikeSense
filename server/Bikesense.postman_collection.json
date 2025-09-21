@@ -1,0 +1,229 @@
+{
+	"info": {
+		"_postman_id": "a181d9f7-ce83-403c-b58a-be2c4da3f378",
+		"name": "Bikesense",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30690164"
+	},
+	"item": [
+		{
+			"name": "getAllTemperatures",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/temperature?start=2024-01-01&end=2024-01-01",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"temperature"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2024-01-01"
+						},
+						{
+							"key": "end",
+							"value": "2024-01-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllMovements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/movement?state=stop-moving&start=2025-06-24",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"movement"
+					],
+					"query": [
+						{
+							"key": "state",
+							"value": "stop-moving"
+						},
+						{
+							"key": "start",
+							"value": "2025-06-24"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllHumidity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/humidity?start=2024-01-01&end=2024-01-01",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"humidity"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2024-01-01"
+						},
+						{
+							"key": "end",
+							"value": "2024-01-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLatestTemperature",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/temperature/latest",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"temperature",
+						"latest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLatestMovement",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/temperature/latest",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"temperature",
+						"latest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLatestHumidity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/humidity/latest",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"humidity",
+						"latest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAggregateTemperature",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/temperature/aggregate?start=2024-01-01&end=2024-01-01",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"temperature",
+						"aggregate"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2024-01-01"
+						},
+						{
+							"key": "end",
+							"value": "2024-01-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAggregateHumidity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/humidity/aggregate?start=2024-01-01&end=2024-01-02",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"humidity",
+						"aggregate"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2024-01-01"
+						},
+						{
+							"key": "end",
+							"value": "2024-01-02"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAggregateMovement",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/movement/aggregate?start=2025-06-24&end=2025-06-24",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"movement",
+						"aggregate"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2025-06-24"
+						},
+						{
+							"key": "end",
+							"value": "2025-06-24"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
